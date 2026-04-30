@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quorum — the fastest way to make better business decisions</title>
+<meta name="description" content="A private network of founders who tell you the truth. Invite only." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  :root{
+    --bg:#070707; --nav:#040404;
+    --card:#0c0c0c; --card-2:#161616;
+    --border:#1c1c1c; --border-2:#2e2e2e;
+    --text:#ffffff; --text-2:#eeeeee; --muted:#c0c0c0; --faint:#707070;
+    --amber:#f59e0b; --green:#22c55e; --blue:#38bdf8;
+    --mono:'JetBrains Mono','Courier New',monospace;
+    --sans:'Space Grotesk','Helvetica Neue',sans-serif;
+  }
+  body{
+    font-family:var(--sans);
+    color:var(--text);
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(ellipse at 18% 14%, rgba(245,158,11,0.22) 0%, rgba(245,158,11,0.08) 30%, transparent 58%),
+      linear-gradient(rgba(255,255,255,0.032) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.032) 1px, transparent 1px);
+    background-size:auto, 28px 28px, 28px 28px;
+    background-attachment:fixed;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* Nav */
+  .nav{
+    position:sticky;top:0;z-index:20;
+    background:rgba(4,4,4,0.78);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1120px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:600;letter-spacing:0.02em}
+  .brand span{font-size:15px}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--mono);font-weight:600;font-size:13px;
+    border-radius:6px;padding:10px 20px;cursor:pointer;border:0;
+    transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+    text-transform:lowercase;
+  }
+  .btn-primary{
+    background:var(--amber);color:#030303;
+    box-shadow:0 0 0 0 rgba(245,158,11,0.0);
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px -8px rgba(245,158,11,0.55)}
+  .btn-outline{
+    background:transparent;color:var(--amber);
+    border:0.5px solid rgba(245,158,11,0.35);
+  }
+  .btn-outline:hover{border-color:rgba(245,158,11,0.7)}
+
+  /* Hero */
+  .hero{padding:88px 0 72px;text-align:center}
+  .hero-mark{display:flex;justify-content:center;margin-bottom:28px}
+  .hero h1{
+    font-family:var(--sans);font-weight:600;letter-spacing:-0.02em;
+    font-size:clamp(36px,6vw,64px);line-height:1.05;margin:0 0 18px;
+  }
+  .hero p.sub{
+    color:var(--muted);font-size:clamp(16px,1.6vw,19px);
+    max-width:640px;margin:0 auto 36px;
+  }
+  .hero-form{
+    display:flex;gap:10px;max-width:520px;margin:0 auto;
+    flex-wrap:wrap;justify-content:center;
+  }
+  .input{
+    flex:1 1 280px;min-width:0;
+    background:var(--card);border:0.5px solid var(--border-2);border-radius:6px;
+    color:var(--text);font-family:var(--sans);font-size:15px;
+    padding:11px 14px;outline:none;transition:border-color .15s ease;
+  }
+  .input::placeholder{color:var(--faint)}
+  .input:focus{border-color:rgba(245,158,11,0.6)}
+  .hero-note{
+    margin-top:18px;color:var(--faint);font-family:var(--mono);font-size:12px;
+    text-transform:lowercase;letter-spacing:0.02em;
+  }
+  .hero-note .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:8px;vertical-align:middle;box-shadow:0 0 10px rgba(34,197,94,0.6)}
+
+  /* Sections */
+  section{padding:72px 0}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.14em;
+    text-transform:lowercase;color:var(--amber);margin-bottom:14px;
+  }
+  .section-title{
+    font-family:var(--sans);font-weight:600;letter-spacing:-0.01em;
+    font-size:clamp(26px,3.4vw,36px);margin:0 0 12px;line-height:1.15;
+  }
+  .section-sub{color:var(--muted);max-width:640px;margin:0 0 40px;font-size:16px}
+
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:840px){.grid-3{grid-template-columns:1fr}}
+
+  .card{
+    background:var(--card);border:0.5px solid var(--border-2);border-radius:8px;
+    padding:24px;transition:border-color .2s ease, transform .2s ease, background .2s ease;
+  }
+  .card:hover{border-color:#3a3a3a;background:var(--card-2)}
+  .card h3{
+    font-family:var(--mono);font-size:13px;font-weight:600;
+    letter-spacing:0.04em;text-transform:lowercase;color:var(--amber);
+    margin:0 0 12px;
+  }
+  .card p{margin:0;color:var(--text-2);font-size:15px}
+  .card .lede{color:var(--text);font-weight:600;font-size:17px;margin-bottom:8px;font-family:var(--sans)}
+
+  /* Tier cards */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:840px){.tiers{grid-template-columns:1fr}}
+  .tier{
+    background:var(--card);border:0.5px solid var(--border-2);border-radius:8px;
+    padding:28px;display:flex;flex-direction:column;gap:14px;position:relative;
+  }
+  .tier.featured{
+    border-color:rgba(245,158,11,0.55);
+    background:linear-gradient(180deg, rgba(245,158,11,0.06), rgba(245,158,11,0.0) 60%), var(--card);
+    box-shadow:0 0 0 1px rgba(245,158,11,0.15), 0 20px 60px -30px rgba(245,158,11,0.35);
+  }
+  .tier-tag{
+    position:absolute;top:-10px;right:18px;
+    background:var(--amber);color:#030303;
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    padding:4px 10px;border-radius:999px;text-transform:lowercase;
+  }
+  .tier-name{font-family:var(--mono);font-size:13px;color:var(--faint);text-transform:lowercase;letter-spacing:0.06em}
+  .tier-price{font-family:var(--sans);font-weight:600;font-size:30px;letter-spacing:-0.02em}
+  .tier-price small{font-family:var(--mono);font-size:12px;color:var(--faint);font-weight:500;margin-left:6px}
+  .tier-line{color:var(--muted);font-size:15px;margin:0}
+
+  /* Waitlist */
+  .waitlist{
+    border-top:0.5px solid var(--border);
+    border-bottom:0.5px solid var(--border);
+    background:linear-gradient(180deg, rgba(245,158,11,0.04), transparent 60%);
+    padding:96px 0;text-align:center;
+  }
+  .waitlist h2{
+    font-family:var(--sans);font-weight:600;letter-spacing:-0.01em;
+    font-size:clamp(28px,4vw,40px);margin:0 0 14px;
+  }
+  .waitlist p.sub{color:var(--muted);max-width:560px;margin:0 auto 32px}
+  .waitlist .hero-form{max-width:560px}
+  .waitlist .hero-note{margin-top:22px}
+
+  /* Success state */
+  .success{
+    display:none;align-items:center;justify-content:center;gap:10px;
+    font-family:var(--mono);font-size:14px;color:var(--green);
+    padding:14px 18px;border:0.5px solid rgba(34,197,94,0.35);
+    border-radius:6px;background:rgba(34,197,94,0.06);
+    max-width:520px;margin:0 auto;
+  }
+  .success.show{display:flex}
+  .success .dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 10px rgba(34,197,94,0.6)}
+
+  /* Footer */
+  footer{
+    border-top:0.5px solid var(--border);
+    padding:36px 0 48px;color:var(--faint);
+    font-family:var(--mono);font-size:12px;
+  }
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .foot-brand{display:flex;align-items:center;gap:10px;color:var(--muted)}
+  .foot-tag{color:var(--faint)}
+
+  html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<!-- Reusable logo (small) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="quorum-mark" viewBox="0 0 28 28">
+    <line x1="14" y1="2" x2="23" y2="7" stroke="#f59e0b" stroke-width="0.8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.6;0.25" dur="1.8s" begin="0s" repeatCount="indefinite"/>
+    </line>
+    <line x1="23" y1="7" x2="23" y2="21" stroke="#f59e0b" stroke-width="0.8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.6;0.25" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
+    </line>
+    <line x1="23" y1="21" x2="14" y2="26" stroke="#f59e0b" stroke-width="0.8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.6;0.25" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+    </line>
+    <line x1="14" y1="26" x2="5" y2="21" stroke="#f59e0b" stroke-width="0.8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.6;0.25" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
+    </line>
+    <line x1="5" y1="21" x2="5" y2="7" stroke="#f59e0b" stroke-width="0.8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.6;0.25" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+    </line>
+    <line x1="5" y1="7" x2="14" y2="2" stroke="#f59e0b" stroke-width="0.8" opacity="0.25">
+      <animate attributeName="opacity" values="0.25;0.6;0.25" dur="1.8s" begin="1.5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="14" y1="14" x2="14" y2="2" stroke="#f59e0b" stroke-width="0.5" opacity="0.1">
+      <animate attributeName="opacity" values="0.1;0.28;0.1" dur="1.8s" begin="0s" repeatCount="indefinite"/>
+    </line>
+    <line x1="14" y1="14" x2="23" y2="7" stroke="#f59e0b" stroke-width="0.5" opacity="0.1">
+      <animate attributeName="opacity" values="0.1;0.28;0.1" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
+    </line>
+    <line x1="14" y1="14" x2="23" y2="21" stroke="#f59e0b" stroke-width="0.5" opacity="0.1">
+      <animate attributeName="opacity" values="0.1;0.28;0.1" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+    </line>
+    <line x1="14" y1="14" x2="14" y2="26" stroke="#f59e0b" stroke-width="0.5" opacity="0.1">
+      <animate attributeName="opacity" values="0.1;0.28;0.1" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
+    </line>
+    <line x1="14" y1="14" x2="5" y2="21" stroke="#f59e0b" stroke-width="0.5" opacity="0.1">
+      <animate attributeName="opacity" values="0.1;0.28;0.1" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+    </line>
+    <line x1="14" y1="14" x2="5" y2="7" stroke="#f59e0b" stroke-width="0.5" opacity="0.1">
+      <animate attributeName="opacity" values="0.1;0.28;0.1" dur="1.8s" begin="1.5s" repeatCount="indefinite"/>
+    </line>
+    <circle cx="14" cy="2" r="2.2" fill="#f59e0b">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" begin="0s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2.2;3;2.2" dur="1.8s" begin="0s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="23" cy="7" r="2.2" fill="#f59e0b">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2.2;3;2.2" dur="1.8s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="23" cy="21" r="2.2" fill="#f59e0b">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2.2;3;2.2" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="14" cy="26" r="2.2" fill="#f59e0b">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2.2;3;2.2" dur="1.8s" begin="0.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="5" cy="21" r="2.2" fill="#f59e0b">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2.2;3;2.2" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="5" cy="7" r="2.2" fill="#f59e0b">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" begin="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2.2;3;2.2" dur="1.8s" begin="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="14" cy="14" r="1.8" fill="#f59e0b" opacity="0.4">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+  </symbol>
+</svg>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Quorum">
+      <svg width="24" height="24" aria-hidden="true"><use href="#quorum-mark"/></svg>
+      <span>quorum</span>
+    </a>
+    <a href="#waitlist" class="btn btn-primary" data-scroll>request access</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-mark">
+        <svg width="56" height="56" aria-hidden="true"><use href="#quorum-mark"/></svg>
+      </div>
+      <h1>The fastest way to make better business decisions.</h1>
+      <p class="sub">A private network of founders who tell you the truth.</p>
+      <form class="hero-form" data-waitlist>
+        <input class="input" type="email" name="email" placeholder="you@company.com" autocomplete="email" required />
+        <button type="submit" class="btn btn-primary">request access</button>
+      </form>
+      <div class="hero-note"><span class="dot"></span>invite only. currently accepting applications.</div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section>
+    <div class="container">
+      <div class="eyebrow">// the problem</div>
+      <h2 class="section-title">Founders are flying blind, together.</h2>
+      <p class="section-sub">The places we go for advice are broken. So we make the biggest calls of our careers without anyone real to ask.</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="lede">LinkedIn is for resumes.</div>
+          <p>Not real conversations. Every post is a performance for an audience that doesn't actually run a company.</p>
+        </div>
+        <div class="card">
+          <div class="lede">Slack groups devolve into self-promotion.</div>
+          <p>The signal-to-noise ratio is brutal. Generic advice from strangers, pitched newsletters, recycled threads.</p>
+        </div>
+        <div class="card">
+          <div class="lede">You're making major decisions alone at 2am.</div>
+          <p>Hiring, firing, fundraising, pivoting. Nobody to call. Cofounder is too close. Investors aren't on your side.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What -->
+  <section>
+    <div class="container">
+      <div class="eyebrow">// what quorum is</div>
+      <h2 class="section-title">A small, private room of founders at your stage.</h2>
+      <p class="section-sub">Not a community. Not a Slack. A vetted cohort built around honest conversation and real decisions.</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>your cohort</h3>
+          <div class="lede">8–12 founders at your stage.</div>
+          <p>Matched by traction, sector, and stage. Honest conversations. No performance, no posturing.</p>
+        </div>
+        <div class="card">
+          <h3>real decisions</h3>
+          <div class="lede">Your personal advisory board.</div>
+          <p>Weekly check-ins on the calls you're actually facing. Verified founders only — every member is reviewed.</p>
+        </div>
+        <div class="card">
+          <h3>trusted room</h3>
+          <div class="lede">Psychological safety by design.</div>
+          <p>Anonymous mode. No vanity metrics. No screenshots leaving the room. Built for the conversations you can't have anywhere else.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tiers -->
+  <section>
+    <div class="container">
+      <div class="eyebrow">// membership</div>
+      <h2 class="section-title">Three ways in.</h2>
+      <p class="section-sub">All tiers are invite only. Pricing is preliminary and may change before launch.</p>
+      <div class="tiers">
+        <div class="tier">
+          <div class="tier-name">free</div>
+          <div class="tier-price">$0<small>/mo</small></div>
+          <p class="tier-line"><strong>See what's happening.</strong></p>
+          <p class="tier-line">Read-only access to selected threads. Weekly digest. Apply for full membership.</p>
+        </div>
+        <div class="tier featured">
+          <div class="tier-tag">recommended</div>
+          <div class="tier-name">tier 1</div>
+          <div class="tier-price">$25<small>/mo</small></div>
+          <p class="tier-line"><strong>Get in the room.</strong></p>
+          <p class="tier-line">Your cohort, weekly check-ins, anonymous posting, full thread access. The core experience.</p>
+        </div>
+        <div class="tier">
+          <div class="tier-name">tier 2</div>
+          <div class="tier-price">$90<small>/mo</small></div>
+          <p class="tier-line"><strong>Unlock everything.</strong></p>
+          <p class="tier-line">Cohort plus 1:1 intros, expert sessions, deal flow, and direct access to senior operators.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Waitlist -->
+<section class="waitlist" id="waitlist">
+  <div class="container">
+    <div class="eyebrow">// request access</div>
+    <h2>Quorum is invite only.</h2>
+    <p class="sub">Apply for the next cohort. We review every application personally.</p>
+    <form class="hero-form" data-waitlist>
+      <input class="input" type="email" name="email" placeholder="you@company.com" autocomplete="email" required />
+      <button type="submit" class="btn btn-primary">request access</button>
+    </form>
+    <div class="hero-note">we review every application. you'll hear back within 48 hours.</div>
+    <div class="success" data-success role="status" aria-live="polite">
+      <span class="dot"></span> you're on the list. we'll be in touch.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-inner">
+    <div class="foot-brand">
+      <svg width="20" height="20" aria-hidden="true"><use href="#quorum-mark"/></svg>
+      <span>quorum</span>
+      <span class="foot-tag">— a private network of founders.</span>
+    </div>
+    <div>© 2024 quorum</div>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll for nav CTA
+  document.querySelectorAll('a[data-scroll], a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (!id || id === '#') return;
+      const el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // Waitlist forms — show success state, log email
+  const successEl = document.querySelector('[data-success]');
+  document.querySelectorAll('form[data-waitlist]').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const email = (data.get('email') || '').toString().trim();
+      if (!email) return;
+
+      // Placeholder: replace with real endpoint when backend is ready
+      try {
+        // await fetch('/api/waitlist', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email})});
+        console.log('[quorum waitlist]', email);
+      } catch (err) {
+        console.warn('waitlist submit failed', err);
+      }
+
+      form.reset();
+      const btn = form.querySelector('button');
+      if (btn) { btn.textContent = 'on the list'; btn.disabled = true; btn.style.opacity = '0.7'; }
+      if (successEl) {
+        successEl.classList.add('show');
+        successEl.scrollIntoView({behavior:'smooth', block:'center'});
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
