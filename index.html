@@ -419,20 +419,28 @@
       const email = (data.get('email') || '').toString().trim();
       if (!email) return;
 
-      // Placeholder: replace with real endpoint when backend is ready
+      const btn = form.querySelector('button');
+      const originalLabel = btn ? btn.textContent : '';
+      if (btn) { btn.textContent = 'sending...'; btn.disabled = true; btn.style.opacity = '0.7'; }
+
       try {
-        // await fetch('/api/waitlist', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email})});
-        console.log('[quorum waitlist]', email);
+        const res = await fetch('https://formspree.io/f/maqvyldk', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: 'quorum-landing' })
+        });
+        if (!res.ok) throw new Error('submit failed: ' + res.status);
+
+        form.reset();
+        if (btn) { btn.textContent = 'on the list'; }
+        if (successEl) {
+          successEl.classList.add('show');
+          successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       } catch (err) {
         console.warn('waitlist submit failed', err);
-      }
-
-      form.reset();
-      const btn = form.querySelector('button');
-      if (btn) { btn.textContent = 'on the list'; btn.disabled = true; btn.style.opacity = '0.7'; }
-      if (successEl) {
-        successEl.classList.add('show');
-        successEl.scrollIntoView({behavior:'smooth', block:'center'});
+        if (btn) { btn.textContent = 'try again'; btn.disabled = false; btn.style.opacity = '1'; }
+        alert('something went wrong. please try again or email us directly.');
       }
     });
   });
