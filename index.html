@@ -23,7 +23,7 @@
     --card:#0c0c0c; --card-2:#161616;
     --border:#1c1c1c; --border-2:#2e2e2e;
     --text:#ffffff; --text-2:#eeeeee; --muted:#c0c0c0; --faint:#707070;
-    --amber:#f59e0b; --green:#22c55e; --blue:#38bdf8;
+    --amber:#f59e0b; --green:#22c55e; --blue:#38bdf8; --purple:#a78bfa;
     --mono:'JetBrains Mono','Courier New',monospace;
     --sans:'Space Grotesk','Helvetica Neue',sans-serif;
   }
@@ -133,6 +133,73 @@
   }
   .card p{margin:0;color:var(--text-2);font-size:15px}
   .card .lede{color:var(--text);font-weight:600;font-size:17px;margin-bottom:8px;font-family:var(--sans)}
+
+  /* Feature spotlight (Vault / Pulse / Collab) */
+  .spotlight{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+  @media (max-width:840px){.spotlight{grid-template-columns:1fr;gap:24px}}
+  .spotlight.reverse .spot-text{order:2}
+  .spotlight.reverse .spot-mock{order:1}
+  @media (max-width:840px){.spotlight.reverse .spot-text{order:1}.spotlight.reverse .spot-mock{order:2}}
+  .spot-eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.14em;
+    text-transform:lowercase;margin-bottom:14px;
+  }
+  .spot-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:11px;text-transform:lowercase;letter-spacing:0.06em;
+    border:0.5px solid var(--border-2);border-radius:999px;padding:5px 11px;color:var(--muted);
+    margin-bottom:18px;
+  }
+  .spot-tag .pip{width:6px;height:6px;border-radius:50%}
+  .spot-text h2{
+    font-family:var(--sans);font-weight:600;letter-spacing:-0.01em;
+    font-size:clamp(26px,3.4vw,36px);margin:0 0 14px;line-height:1.15;
+  }
+  .spot-text p{color:var(--muted);font-size:16px;margin:0 0 10px;max-width:520px}
+  .spot-text strong{color:var(--text)}
+  .spot-mock{
+    background:var(--card);border:0.5px solid var(--border-2);border-radius:10px;
+    padding:18px;display:flex;flex-direction:column;gap:10px;
+  }
+  .spot-row{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:#0a0a0a;border:0.5px solid var(--border);border-radius:6px;padding:12px 14px;
+  }
+  .spot-row .meta{display:flex;align-items:center;gap:10px;min-width:0}
+  .spot-row .title{font-family:var(--sans);font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .spot-row .sub{font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:lowercase}
+  .spot-row .badge{
+    font-family:var(--mono);font-size:10px;text-transform:lowercase;letter-spacing:0.06em;
+    padding:3px 8px;border-radius:999px;border:0.5px solid;
+  }
+  .lock{width:14px;height:14px;flex-shrink:0;opacity:0.7}
+
+  /* Vault — blue */
+  .vault .spot-eyebrow{color:var(--blue)}
+  .vault .spot-tag .pip{background:var(--blue);box-shadow:0 0 8px rgba(56,189,248,0.7)}
+  .vault .spot-tag{border-color:rgba(56,189,248,0.35);color:var(--blue)}
+  .vault .badge{color:var(--blue);border-color:rgba(56,189,248,0.4);background:rgba(56,189,248,0.06)}
+  .vault .lock{color:var(--blue)}
+
+  /* Pulse — green */
+  .pulse .spot-eyebrow{color:var(--green)}
+  .pulse .spot-tag .pip{background:var(--green);box-shadow:0 0 8px rgba(34,197,94,0.7)}
+  .pulse .spot-tag{border-color:rgba(34,197,94,0.35);color:var(--green)}
+  .pulse .post{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+  .pulse .post-head{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:lowercase}
+  .pulse .post-head .verified{color:var(--green)}
+  .pulse .post-body{font-family:var(--sans);font-size:14px;color:var(--text-2);line-height:1.55}
+  .pulse .post-foot{display:flex;gap:14px;font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:lowercase;border-top:0.5px solid var(--border);padding-top:10px}
+  .pulse .strike{text-decoration:line-through;opacity:0.4}
+
+  /* Collab — purple */
+  .collab .spot-eyebrow{color:var(--purple)}
+  .collab .spot-tag .pip{background:var(--purple);box-shadow:0 0 8px rgba(167,139,250,0.7)}
+  .collab .spot-tag{border-color:rgba(167,139,250,0.35);color:var(--purple)}
+  .collab .badge{color:var(--purple);border-color:rgba(167,139,250,0.4);background:rgba(167,139,250,0.06)}
+  .collab .vote{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--purple)}
+  .collab .vote-bar{flex:1;height:4px;background:#1a1a1a;border-radius:2px;overflow:hidden}
+  .collab .vote-fill{height:100%;background:var(--purple);border-radius:2px}
 
   /* Tier cards */
   .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -339,6 +406,138 @@
           <h3>trusted room</h3>
           <div class="lede">Psychological safety by design.</div>
           <p>Anonymous mode. No vanity metrics. No screenshots leaving the room. Built for the conversations you can't have anywhere else.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vault -->
+  <section class="vault">
+    <div class="container">
+      <div class="spotlight">
+        <div class="spot-text">
+          <div class="spot-eyebrow">// vault — tier 2</div>
+          <span class="spot-tag"><span class="pip"></span>tier 2 only</span>
+          <h2>The advice you can't Google.</h2>
+          <p><strong>Verified playbooks and real stories from founders who've actually been there</strong> — exited, raised, hired, fired, pivoted. Not blog posts. Not threads. The unglamorous specifics.</p>
+        </div>
+        <div class="spot-mock spot-mock-vault" aria-hidden="true">
+          <div class="spot-row">
+            <div class="meta">
+              <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <div>
+                <div class="title">How we raised our Series A in 19 days</div>
+                <div class="sub">acme · seed → series a · 2024</div>
+              </div>
+            </div>
+            <span class="badge">verified</span>
+          </div>
+          <div class="spot-row">
+            <div class="meta">
+              <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <div>
+                <div class="title">Firing my cofounder — the full timeline</div>
+                <div class="sub">anonymous · post-exit · 2023</div>
+              </div>
+            </div>
+            <span class="badge">verified</span>
+          </div>
+          <div class="spot-row">
+            <div class="meta">
+              <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <div>
+                <div class="title">First 10 enterprise customers, line by line</div>
+                <div class="sub">b2b saas · $0 → $1m arr</div>
+              </div>
+            </div>
+            <span class="badge">verified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pulse -->
+  <section class="pulse">
+    <div class="container">
+      <div class="spotlight reverse">
+        <div class="spot-text">
+          <div class="spot-eyebrow">// pulse — the feed</div>
+          <span class="spot-tag"><span class="pip"></span>verified founders only</span>
+          <h2>What founders actually say when nobody's performing.</h2>
+          <p><strong>No likes. No follower counts. No vanity metrics.</strong> Just honest posts from verified founders. Anonymous mode available for the things you can't say with your name on them.</p>
+        </div>
+        <div class="spot-mock" aria-hidden="true">
+          <div class="spot-row post">
+            <div class="post-head">
+              <span class="verified">● verified founder</span>
+              <span>· anonymous</span>
+              <span>· 2h</span>
+            </div>
+            <div class="post-body">we missed payroll last week. told the team this morning. asked anyone here who's been through it — what did you wish you'd done differently in the first 48 hours?</div>
+            <div class="post-foot">
+              <span>14 honest replies</span>
+              <span class="strike">likes</span>
+              <span class="strike">followers</span>
+            </div>
+          </div>
+          <div class="spot-row post">
+            <div class="post-head">
+              <span class="verified">● verified founder</span>
+              <span>· @lena</span>
+              <span>· 6h</span>
+            </div>
+            <div class="post-body">closed the round. 3.2 at 18 pre. happy to share the deck and every rejection email if it helps anyone here.</div>
+            <div class="post-foot">
+              <span>9 honest replies</span>
+              <span class="strike">likes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collab Board -->
+  <section class="collab">
+    <div class="container">
+      <div class="spotlight">
+        <div class="spot-text">
+          <div class="spot-eyebrow">// collab board — tier 2</div>
+          <span class="spot-tag"><span class="pip"></span>tier 2 only</span>
+          <h2>The place where founders actually build things together.</h2>
+          <p><strong>Post a project, find co-thinkers, ship inside private project rooms</strong> with shared docs and decision voting. Not networking — co-working with people who'll tell you the truth.</p>
+        </div>
+        <div class="spot-mock" aria-hidden="true">
+          <div class="spot-row">
+            <div class="meta">
+              <div>
+                <div class="title">Pricing teardown — usage-based vs seat</div>
+                <div class="sub">3 founders in room · shared doc · 2 open questions</div>
+              </div>
+            </div>
+            <span class="badge">open</span>
+          </div>
+          <div class="spot-row" style="display:block">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div class="title">Should we raise a bridge or extend runway?</div>
+              <span class="badge">voting</span>
+            </div>
+            <div class="vote">
+              <span>raise</span>
+              <div class="vote-bar"><div class="vote-fill" style="width:62%"></div></div>
+              <span>5 / 8</span>
+            </div>
+          </div>
+          <div class="spot-row">
+            <div class="meta">
+              <div>
+                <div class="title">Looking for: technical co-thinker on agent infra</div>
+                <div class="sub">@marcus · 4 interested</div>
+              </div>
+            </div>
+            <span class="badge">recruiting</span>
+          </div>
         </div>
       </div>
     </div>
